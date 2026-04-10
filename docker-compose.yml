@@ -1,0 +1,53 @@
+services:
+  fort-http:
+    build: ./containers/fort-http
+    container_name: arena-fort-http
+    hostname: fort-http
+    networks:
+      arena-net:
+        ipv4_address: 10.10.0.2
+    volumes:
+      - ./logs:/arena/logs
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  fort-ssh:
+    build: ./containers/fort-ssh
+    container_name: arena-fort-ssh
+    hostname: fort-ssh
+    networks:
+      arena-net:
+        ipv4_address: 10.10.0.3
+    volumes:
+      - ./logs:/arena/logs
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  exchange:
+    build: ./containers/exchange
+    container_name: arena-exchange
+    hostname: exchange
+    networks:
+      arena-net:
+        ipv4_address: 10.10.0.4
+    volumes:
+      - ./logs:/arena/logs
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+networks:
+  arena-net:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.10.0.0/24
